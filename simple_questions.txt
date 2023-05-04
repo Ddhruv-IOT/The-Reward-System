@@ -1,0 +1,33 @@
+Enter GitHub Profile Link: 
+A valid link
+5 marks 
+⚠️
+is_valid_link
+
+
+Enter GitHub Profile Link:
+A valid link
+5 marks 
+⚠️
+is_valid_link
+
+
+Enter LinkedIN Profile Link:
+A valid link
+5 marks 
+⚠️
+is_valid_link
+
+
+Enter StackOverflow Profile Link:
+A valid link
+5 marks 
+⚠️ 
+is_valid_link
+
+
+Enter your gmail ID:
+A valid link
+5 marks 
+⚠️ 
+is_valid_link
