@@ -1,6 +1,6 @@
 Enter GitHub Profile Link: 
 A valid link
-5 marks 
+5 points possible
 ⚠️
 is_valid_link
 
