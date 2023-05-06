@@ -48,7 +48,6 @@ def question_template(st, question, placeholder, info_text, icon, callback=None,
         return "Wrong Inputs"
     
     if callback2 and not callback2(text_input, keyword):
-        st.write("Wrong Keyword")
         return "Wrong Data"    
 
     st.text(f"Your Input: {text_input}")
