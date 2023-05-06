@@ -1,8 +1,10 @@
-Enter GitHub Profile Link: 
-A valid link
-5 points possible
+Enter your GitHub Profile Link: 
+https://github.com/Ddhruv-IOT
+Maximum of five points are possible
 ⚠️
 is_valid_link
+keyword
+https://github.com/
 
 
 Enter GitHub Profile Link:
