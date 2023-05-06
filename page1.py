@@ -10,30 +10,27 @@ from utils import md_runner, question_template, is_valid_link, is_keyword_presen
 
     
 def page1():
-    md_runner("<h3>So, Let's begin with Starter Challanges!</h3>")  
-    question_template(st, "question", "question", "question", "⛔", callback=is_valid_link, callback2=is_keyword_present, keyword="git",key=0)
+    md_runner("<h3>So, Let's begin with Starter Challanges!</h3>") 
+
+    # question_template(st, "question", "question", "question", "⛔", callback=is_valid_link, callback2=is_keyword_present, keyword="git",key=0)
+
     with open("./simple_questions.txt", encoding="utf8" ) as questions:
         a1 = questions.read().split("\n\n\n")
-        for ix, t in enumerate(a1):
-            print(ix)
-            args = (t.split("\n"))
-            print(args)
+        for index, t in enumerate(a1):
+            args = t.split("\n")
             
             callback = None
             if "is_valid_link" in args:
                 args.pop(args.index("is_valid_link"))
                 callback = is_valid_link # the function name is passed as a callback
             
-            keyword = None
             callback2 = None
-            if "kw:" in args:
-                print("yes")
-                keyword = args.pop(args.index("kw:"))
-                keyword = keyword.split(":")[1]
+            keyword = None
+            if "keyword" in args:
+                args.pop(args.index("keyword"))
+                keyword = args.pop(-1)
+                callback2 = is_keyword_present # the function name is passed as a callback
             
-            print(args)
-            
-
-            question_template(st, *args, callback=callback, key=t)
+            question_template(st, *args, callback=callback, callback2=callback2, keyword=keyword, key=t)
             
             
