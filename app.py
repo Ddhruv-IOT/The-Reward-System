@@ -41,7 +41,7 @@ if authentication_status == True:
                             )
 
     if choose == "About":
-        st.write("Hi")
+        st.write(f"Hi {name}")
         md_runner("<h4>Want be on Developer Spotlight ? </h2>")
         md_runner("<h4>Complete the Challanges and Earn points!</h2>")
 
