@@ -4,6 +4,11 @@ from pymongo.server_api import ServerApi
 from mongoCollection import student_data
 from dbSecrets import db_cred
 
+import streamlit as st
+import pymongo
+
+db_cred = st.secrets["mongoA"]["db_cred"]
+
 uri = f"mongodb+srv://{db_cred}.mongodb.net/?retryWrites=true&w=majority"
 
 # Connect to MongoDB
