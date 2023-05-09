@@ -2,7 +2,7 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from mongoCollection import student_data
-from dbSecrets import db_cred
+# from dbSecrets import db_cred
 
 import streamlit as st
 import pymongo
