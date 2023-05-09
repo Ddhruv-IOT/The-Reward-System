@@ -7,6 +7,7 @@ Created on Mon Jul 10 19:34:16 2023
 
 import streamlit as st
 import requests
+from db import collection
 
 
 def md_runner(data):
@@ -26,9 +27,10 @@ def is_valid_link(url):
 
     try:
         response = requests.head(url)
-        if response.status_code != 200:
-            st.info("Unreachable", icon="🛑")
-            return False
+        # if response.status_code != 999:
+        #     print(response.status_code)
+        #     st.info("Unreachable", icon="🛑")
+        #     return False
     except requests.exceptions.RequestException:
         st.info("Wrong Link", icon="⛔")
         return False
@@ -44,12 +46,36 @@ def question_template(st, question, placeholder, info_text, icon, callback=None,
         key=key
     )
 
+    flag = True
+
     if callback and not callback(text_input):
+        flag = False
         return "Wrong Inputs"
     
     if callback2 and not callback2(text_input, keyword):
+        flag = False
         return "Wrong Data"    
 
-    st.text(f"Your Input: {text_input}")
-    st.info(info_text, icon=icon)
-    return text_input
+    if flag:
+        st.text(f"Your Input: {text_input}")
+        st.info(info_text, icon=icon)
+
+        query = {"name": "John Doe"}
+        existing_document = collection.find_one(query)
+
+        if existing_document:
+            print(flag)
+            # Update the document with a new field
+            new_field = {"$set": {keyword: text_input}}
+            collection.update_one(query, new_field)
+            print("Document updated successfully.")
+        else:
+            print("Document not found.")
+
+        # Print the updated document
+        updated_document = collection.find_one(query)
+        print("Updated Document:")
+        print(updated_document)
+
+
+        return text_input
