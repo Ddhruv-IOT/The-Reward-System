@@ -1,25 +1,42 @@
-
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from mongoCollection import student_data
-# from dbSecrets import db_cred
-
 import streamlit as st
-import pymongo
 
-db_cred = st.secrets["mongoA"]["db_cred"]
+db_object = []
 
-uri = f"mongodb+srv://{db_cred}.mongodb.net/?retryWrites=true&w=majority"
+def init_db():
+    print("Connecting to MongoDB Atlas...")
 
-# Connect to MongoDB
-# Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
-database = client["student_database"]
-collection = database["students"]
+    # Get the database credentials from Streamlit Secrets
+    db_cred = st.secrets["mongoA"]["db_cred"]
+    uri = f"mongodb+srv://{db_cred}.mongodb.net/?retryWrites=true&w=majority"
 
-# # Insert the student document into the collection
-# collection.insert_one(student_data)
+    # Create a new client and connect to the MongoDb Altas server
+    client = MongoClient(uri, server_api=ServerApi("1"))
+    
+    # Access the database and collection
+    database = client["student_database"]
+    collection = database["students"]
 
-# # Find a student by name
-# result = collection.find_one({"name": "John Doe"})
-# print(result)
+    # retrun the collection object
+    return collection
+
+
+db_co = []
+
+# Find a student by name
+
+
+def read_student(collection):
+    print("Reading a student from the database...")
+    result = collection.find_one({"name": "John Doe"})
+    print(result)
+
+
+if __name__ == "__main__":
+    collection = init_db()
+    db_co.append(collection)
+    print(collection)
+    # read_student(db_co[0])
+    # read_student(db_co[0])
+    # read_student(db_co[0])
