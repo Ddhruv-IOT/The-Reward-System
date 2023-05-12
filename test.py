@@ -10,11 +10,17 @@
 #     for t in a1:
 #         print(t.split("\n"))
 
-x = [1, '2', 3]
-z = x.pop(2)
-print(z)
+# x = [1, '2', 3]
+# z = x.pop(2)
+# print(z)
 
 
-x = "abc hi kw: abc"
-if "kw:" in x:
-    print("yes")
+# x = "abc hi kw: abc"
+# if "kw:" in x:
+#     print("yes")
+
+import streamlit as st
+if 'key' not in st.session_state:
+    st.session_state['key'] = 'value'
+
+st.write(st.session_state['key'])
