@@ -10,6 +10,7 @@ from utils import md_runner, question_template, is_valid_link, is_keyword_presen
 
     
 def page1():
+    st.write(st.session_state['key'])
     md_runner("<h3>So, Let's begin with Starter Challanges!</h3>") 
 
     # question_template(st, "question", "question", "question", "⛔", callback=is_valid_link, callback2=is_keyword_present, keyword="git",key=0)
