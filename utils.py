@@ -7,8 +7,9 @@ Created on Mon Jul 10 19:34:16 2023
 
 import streamlit as st
 import requests
-from db import collection
+from db import init_db
 
+collection = init_db()
 
 def md_runner(data):
     st.markdown(data, unsafe_allow_html=True)
