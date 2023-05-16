@@ -21,16 +21,15 @@ def init_once_and_get_collection():
     # retrun the collection object
     return collection
 
-
+# Test function for Read operation
 # Find a student by name
 @st.cache_data(ttl=600)
 def read_student(_collection):
     print("Reading a student from the database...")
     result = _collection.find_one({"name": "John Doe"})
-    # result = list(result)
     return result
 
 
 if __name__ == "__main__":
     db_co = init_once_and_get_collection()
-    print(read_student(db_co))
+    # print(read_student(db_co))
