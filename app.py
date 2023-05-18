@@ -15,21 +15,17 @@ import pickle
 from pathlib import Path
 import streamlit_authenticator
 
-if 'key' not in st.session_state:
-    st.session_state['key'] = 'value'
-
-st.write(st.session_state['key'])
-
-
 names = ["Ddhruv", "Ankita"]
-usernames = ["ddhruv", "ankita"]  
+usernames = ["ddhruv", "ankita"]
 
 file_pth = Path(__file__).parent / "users.pkl"
 
 with open(file_pth, "rb") as f:
     hashes = pickle.load(f)
 
-auth = streamlit_authenticator.Authenticate(names, usernames, hashes, "RAIoT Rewards", "App989")
+auth = streamlit_authenticator.Authenticate(
+    names, usernames, hashes, "RAIoT Rewards", "App989"
+)
 
 name, authentication_status, username = auth.login("Login", "main")
 
@@ -38,17 +34,18 @@ if authentication_status == False:
 if authentication_status == None:
     st.warning("Please enter your credentials")
 if authentication_status == True:
-
     if name == "Ddhruv":
-         adm_page()
+        adm_page()
 
     else:
         with st.sidebar:
-            choose = option_menu("RAIoT Rewards", ["About", "Level1", "Level2", "Level3", "Coming Soon!"],
-                                icons=['house', 'camera fill', 'kanban',
-                                        'book', 'person lines fill'],
-                                menu_icon="app-indicator", default_index=0,
-                                )
+            choose = option_menu(
+                "RAIoT Rewards",
+                ["About", "Level1", "Level2", "Level3", "Coming Soon!"],
+                icons=["house", "camera fill", "kanban", "book", "person lines fill"],
+                menu_icon="app-indicator",
+                default_index=0,
+            )
 
         if choose == "About":
             st.write(f"Hi {name}")
