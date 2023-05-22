@@ -1,29 +1,19 @@
 import streamlit as st
 import uuid
+import streamlit_authenticator
+
+last_email = []
 
 
 def generate_user_password():
     # Generate a UUID4
     uuid_str = str(uuid.uuid4())
-
     # Remove hyphens from the UUID string
-    uuid_str = uuid_str.replace("-", "")
-
+    uuid_str = uuid_str.replace("-", "@")
     # Extract a substring of desired length from the UUID string
-    password = uuid_str[:10]  # Adjust the length as per your requirement
+    password = uuid_str[:7]
 
     return password
-
-
-st.session_state["disable"] = False
-
-
-def disable_form():
-    st.session_state["disable"] = True
-
-
-def enable_form():
-    st.session_state["disable"] = False
 
 
 def add_user():
@@ -35,34 +25,18 @@ def add_user():
             name = st.text_input("Enter User name")
         with col2:
             email = st.text_input("Enter User email")
-        submitted = st.form_submit_button(
-            "Submit", on_click=disable_form, disabled=st.session_state["disable"]
-        )
+        submitted = st.form_submit_button("Submit")
 
-    if submitted and name and email:
-        random_password = generate_user_password()
-        st.write(name, email, random_password)
-        # do something with the data
-        enable_form()
-
-    elif submitted and not name:
-        st.error("Name cannot be empty")
-
-    elif submitted and not email:
-        st.error("Email cannot be empty")
-
-
-# import pickle
-# from pathlib import Path
-# import streamlit_authenticator
-
-# names = ["Ddhruv", "Ankita"]
-# usernames = ["ddhruv", "ankita"]
-# passwords = ["ddhruv09", "ankita12"]
-
-# hashes = streamlit_authenticator.Hasher(passwords).generate()
-
-# file_pth = Path(__file__).parent / "users.pkl"
-
-# with open(file_pth, "wb") as f:
-#     pickle.dump(hashes, f)
+    if submitted:
+        if not name:
+            st.error("Name cannot be empty")
+        elif not email:
+            st.error("Email cannot be empty")
+        elif email in last_email:
+            st.error("Current and Previous email cannot be same")
+        else:
+            random_password = generate_user_password()
+            last_email.append(email)
+            st.write(name, email, random_password)
+            hashes = streamlit_authenticator.Hasher([random_password]).generate()
+            print(hashes)
