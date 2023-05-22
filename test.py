@@ -24,3 +24,13 @@ if 'key' not in st.session_state:
     st.session_state['key'] = 'value'
 
 st.write(st.session_state['key'])
+
+st.session_state["disable"] = False
+
+
+def disable_form():
+    st.session_state["disable"] = True
+
+
+def enable_form():
+    st.session_state["disable"] = False
