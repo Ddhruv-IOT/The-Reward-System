@@ -2,7 +2,10 @@ import streamlit as st
 import uuid
 import streamlit_authenticator
 
+from db import adduser
+
 last_email = []
+_collection = st.session_state["db_coll"]
 
 
 def generate_user_password():
@@ -40,3 +43,5 @@ def add_user():
             st.write(name, email, random_password)
             hashes = streamlit_authenticator.Hasher([random_password]).generate()
             print(hashes)
+            adduser(_collection, name, email, hashes[0])
+            
