@@ -11,6 +11,8 @@ from db import init_once_and_get_collection
 
 collection = init_once_and_get_collection()
 
+st.session_state["db_coll"] = collection
+
 def md_runner(data):
     st.markdown(data, unsafe_allow_html=True)
 
