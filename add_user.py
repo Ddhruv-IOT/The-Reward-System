@@ -32,24 +32,30 @@ def add_user():
 
     if submitted:
         if not name:
-            st.error("Name cannot be empty")
+            st.error("Name cannot be empty", icon="⁉️")
             return
         elif not email:
-            st.error("Email cannot be empty")
+            st.error("Email cannot be empty", icon="⁉️")
             return
 
         elif email in last_email:
-            st.error("Current and Previous email cannot be same")
+            st.error("Current and Previous email cannot be same", icon="❌")
             return
 
         random_password = generate_user_password()
         last_email.append(email)
-        st.write(name, email, random_password)
+        # st.write(name, email, random_password)
         hashes = streamlit_authenticator.Hasher([random_password]).generate()
         status = adduser(_collection, name, email, hashes[0])
 
         if not status:
-            print("Failed to add new user. Try again.")
-         # needs refactoring
-        print("New user added successfully.")
+            st.warning("Failed to add new user. Try again.", icon="⚠️")
+            return
+        elif status == "emailError":
+            st.error("Email already exists", icon="❌")
+            return
+        st.success(f"New user added successfully, user id: {status.inserted_id}", icon="✅")
+        st.write(name, email, random_password)
+    
+    
         
