@@ -32,19 +32,15 @@ def read_student(_collection):
 
 
 def adduser(_collection, name, email, password):
-    print("Adding a student to the database...")
-    
     if _collection.find_one({"email": email}):
-        print("Email already exists.")
-        return "Email already exists."
-    
+        return "emailError"
+
     result = _collection.insert_one(
         {"name": name, "email": email, "password": password}
     )
     return result
 
 
-    print("User added successfully.")
 if __name__ == "__main__":
     db_co = init_once_and_get_collection()
     # print(read_student(db_co))
