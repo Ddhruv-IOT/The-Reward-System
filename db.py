@@ -30,6 +30,13 @@ def read_student(_collection):
     result = _collection.find_one({"name": "John Doe"})
     return result
 
+@st.cache_data(ttl=600)
+def read_student_name(_collection):
+    # Retrieve only the names of all students
+    cursor = _collection.find({}, {"name": 1, "_id": 0})
+    names = [doc["name"] for doc in cursor]
+    return names
+
 
 def adduser(_collection, name, email, password):
     if _collection.find_one({"email": email}):
