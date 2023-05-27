@@ -34,3 +34,8 @@ def disable_form():
 
 def enable_form():
     st.session_state["disable"] = False
+    
+# st.cache_data.clear()
+# read_student_name(_collection)
+# st.table( read_student_name(_collection)) 
+    
