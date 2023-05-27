@@ -26,7 +26,6 @@ def init_once_and_get_collection():
 # Find a student by name
 @st.cache_data(ttl=600)
 def read_student(_collection):
-    print("Reading a student from the database...")
     result = _collection.find_one({"name": "John Doe"})
     return result
 
