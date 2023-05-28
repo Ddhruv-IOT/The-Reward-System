@@ -3,10 +3,13 @@ import uuid
 import streamlit_authenticator
 
 from db import adduser, read_student_name
+from emailer import connect_SMPT, send_email, stop_SMPT
 from utils import md_runner
 
 last_email = []
 _collection = st.session_state["db_coll"]
+s = connect_SMPT()
+st.session_state["_s"] = s
 
 
 def generate_user_password():
@@ -24,7 +27,7 @@ def add_user():
     read_student_name(_collection)
 
     with st.form("my_form"):
-        md_runner("<h3> 👨‍💻 Add a new User 👩‍💻 </h3>")
+        md_runner("<h3> 🔌 Add a new user 👨‍💻👩‍💻</h3>")
         col1, col2 = st.columns(2)
         with col1:
             name = st.text_input("Enter User name")
@@ -58,5 +61,10 @@ def add_user():
             st.success(
                 f"New user added successfully, user id: {status.inserted_id}", icon="✅"
             )
-            st.write(name, email, random_password)
-            st.balloons()
+
+            with st.spinner("Sending email to user..."):
+                op = send_email(s, email, random_password)
+                st.success(op, icon="✅")
+                # stop_SMPT(s)
+                # st.write(name, email, random_password)
+                st.balloons()
