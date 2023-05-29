@@ -7,6 +7,7 @@ Created on Mon Jul 10 17:56:01 2023
 
 import streamlit as st
 from streamlit_option_menu import option_menu
+from db import init_once_and_get_collection
 from page1 import page1
 from utils import md_runner
 from admin_page import adm_page
@@ -18,13 +19,33 @@ import streamlit_authenticator
 names = ["Ddhruv", "Ankita"]
 usernames = ["ddhruv", "ankita"]
 
+# collection = st.session_state["db_coll"]
+collection = init_once_and_get_collection()
+cursor =collection.find({})
+
+# Lists to store user names, passwords, and emails
+user_names = []
+passwords = []
+emails = []
+
+# Iterate over the cursor and extract data
+for doc in cursor:
+    user_names.append(doc["name"])
+    passwords.append(doc["password"])
+    emails.append(doc["email"])
+
+# Print the lists
+print("User Names:", user_names)
+print("Passwords:", passwords)
+print("Emails:", emails)
+
 file_pth = Path(__file__).parent / "users.pkl"
 
 with open(file_pth, "rb") as f:
     hashes = pickle.load(f)
 
 auth = streamlit_authenticator.Authenticate(
-    names, usernames, hashes, "RAIoT Rewards", "App989"
+    user_names, emails, passwords, "RAIoT Rewards", "App989"
 )
 
 name, authentication_status, username = auth.login("Login", "main")
@@ -34,7 +55,7 @@ if authentication_status == False:
 if authentication_status == None:
     st.warning("Please enter your credentials")
 if authentication_status == True:
-    if name == "Ddhruv":
+    if name == "Ddhruv9":
         adm_page()
 
     else:
