@@ -68,3 +68,5 @@ def add_user():
                 # stop_SMPT(s)
                 # st.write(name, email, random_password)
                 st.balloons()
+                
+                # TODO: Add a button to stop the SMTP server
