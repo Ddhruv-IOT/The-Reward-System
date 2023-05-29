@@ -29,6 +29,7 @@ def read_student(_collection):
     result = _collection.find_one({"name": "John Doe"})
     return result
 
+
 @st.cache_data(ttl=600)
 def read_student_name(_collection):
     # Retrieve only the names of all students
