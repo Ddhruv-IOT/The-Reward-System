@@ -11,42 +11,50 @@ from db import init_once_and_get_collection
 from page1 import page1
 from utils import md_runner
 from admin_page import adm_page
-
-import pickle
-from pathlib import Path
 import streamlit_authenticator
 
 names = ["Ddhruv", "Ankita"]
 usernames = ["ddhruv", "ankita"]
 
-# collection = st.session_state["db_coll"]
-collection = init_once_and_get_collection()
-cursor =collection.find({})
+@st.cache_data
+def login_func():
 
-# Lists to store user names, passwords, and emails
-user_names = []
-passwords = []
-emails = []
+    #TODO: Add function for login and optimiztions 
 
-# Iterate over the cursor and extract data
-for doc in cursor:
-    user_names.append(doc["name"])
-    passwords.append(doc["password"])
-    emails.append(doc["email"])
+    # collection = st.session_state["db_coll"]
+    collection = init_once_and_get_collection()
+    cursor = collection.find({})
 
-# Print the lists
-print("User Names:", user_names)
-print("Passwords:", passwords)
-print("Emails:", emails)
+    # Lists to store user names, passwords, and emails
+    user_names = []
+    passwords = []
+    emails = []
 
-file_pth = Path(__file__).parent / "users.pkl"
+    # Iterate over the cursor and extract data
+    for doc in cursor:
+        user_names.append(doc["name"])
+        passwords.append(doc["password"])
+        emails.append(doc["email"])
 
-with open(file_pth, "rb") as f:
-    hashes = pickle.load(f)
+    # Print the lists
+    print("User Names:", user_names)
+    print("Passwords:", passwords)
+    print("Emails:", emails)
+
+    # auth = streamlit_authenticator.Authenticate(
+    #     user_names, emails, passwords, "RAIoT Rewards", "App989"
+    # )
+
+    # name, authentication_status, username = auth.login("Login", "main")
+    
+    # return name, authentication_status, username
+    return user_names, emails, passwords
+
+user_names, emails, passwords=  login_func()
 
 auth = streamlit_authenticator.Authenticate(
-    user_names, emails, passwords, "RAIoT Rewards", "App989"
-)
+        user_names, emails, passwords, "RAIoT Rewards", "App989"
+    )
 
 name, authentication_status, username = auth.login("Login", "main")
 
