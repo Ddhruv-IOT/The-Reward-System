@@ -22,12 +22,22 @@ def init_once_and_get_collection():
     return collection
 
 
-# Test function for Read operation
-# Find a student by name
 @st.cache_data(ttl=600)
-def read_student(_collection):
-    result = _collection.find_one({"name": "John Doe"})
-    return result
+def user_general_info(_collection):
+    cursor = _collection.find({})
+
+    # Lists to store user names, passwords, and emails
+    user_names = []
+    passwords = []
+    emails = []
+
+    # Iterate over the cursor and extract data
+    for doc in cursor:
+        user_names.append(doc["name"])
+        passwords.append(doc["password"])
+        emails.append(doc["email"])
+
+    return user_names, emails, passwords
 
 
 @st.cache_data(ttl=600)
