@@ -7,7 +7,7 @@ Created on Mon Jul 10 17:56:01 2023
 
 import streamlit as st
 from streamlit_option_menu import option_menu
-from db import init_once_and_get_collection
+from db import init_once_and_get_collection, user_general_info
 from page1 import page1
 from utils import md_runner
 from admin_page import adm_page
@@ -16,47 +16,20 @@ import streamlit_authenticator
 names = ["Ddhruv", "Ankita"]
 usernames = ["ddhruv", "ankita"]
 
-@st.cache_data
 def login_func():
-
-    #TODO: Add function for login and optimiztions 
-
-    # collection = st.session_state["db_coll"]
     collection = init_once_and_get_collection()
-    cursor = collection.find({})
+    user_names, emails, passwords = user_general_info(collection)
+    auth = streamlit_authenticator.Authenticate(
+    user_names, emails, passwords, "RAIoT Rewards", "App989"
+)
 
-    # Lists to store user names, passwords, and emails
-    user_names = []
-    passwords = []
-    emails = []
+    name, authentication_status, username = auth.login("Login", "main")
+    return user_names, emails, passwords, authentication_status, name
 
-    # Iterate over the cursor and extract data
-    for doc in cursor:
-        user_names.append(doc["name"])
-        passwords.append(doc["password"])
-        emails.append(doc["email"])
 
-    # Print the lists
-    print("User Names:", user_names)
-    print("Passwords:", passwords)
-    print("Emails:", emails)
+user_names, emails, passwords, authentication_status, name = login_func()
 
-    # auth = streamlit_authenticator.Authenticate(
-    #     user_names, emails, passwords, "RAIoT Rewards", "App989"
-    # )
 
-    # name, authentication_status, username = auth.login("Login", "main")
-    
-    # return name, authentication_status, username
-    return user_names, emails, passwords
-
-user_names, emails, passwords=  login_func()
-
-auth = streamlit_authenticator.Authenticate(
-        user_names, emails, passwords, "RAIoT Rewards", "App989"
-    )
-
-name, authentication_status, username = auth.login("Login", "main")
 
 if authentication_status == False:
     st.error("Authentication Failed")
